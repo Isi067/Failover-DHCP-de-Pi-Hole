@@ -33,7 +33,13 @@ El primer script verifica que el servicio DHCP de el servidor primario este func
     https://github.com/Isi067/Failover-DHCP-de-Pi-Hole.git
     cd Failover-DHCP-de-Pi-Hole
     ```
-    
+
+- **Modificar las variables del script**
+- ```bash
+    nano sync_leases_config.sh #Modificar la variable IP
+    nano failover_dhcp.sh #Modificar la variable IP
+    ```
+	
 - **Copiar los scripts al directorio de binarios**
 - ```bash
     cp failover_dhcp.sh /usr/local/bin/
