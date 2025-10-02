@@ -1,26 +1,25 @@
 #!/bin/bash
  
-# Primary Pi-hole VM IP address
-PRIMARY_PIHOLE_IP="192.168.1.249"
+IP="" #Pon la IP del Pi-hole primario aquí
  
-# Check if the primary Pi-hole is online
-if ping -c 3 $PRIMARY_PIHOLE_IP &> /dev/null; then
-    echo "$(date) - Primary Pi-hole is up."
+# Comprueba si el Pi-hole principal está en línea
+if ping -c 3 $IP &> /dev/null; then
+     echo "[+] - (date) - El Pi‑hole principal está encendido."
      
-    # Check if DHCP is running on the Pi - if so, disable it
+    # Comprueba si el Pi-hole principal está en línea
     if pihole-FTL dhcp-discover | grep -q "Pi-hole DHCP server: active"; then
-        echo "$(date) - Disabling DHCP on the Raspberry Pi (primary is up)."
+        echo "[+] - $(date) - Desactivando DHCP en el Raspberry Pi (el principal está encendido)."
         sed -i '/^\[dhcp\]/, /^\[/{ 
   	    s/^\(\s*active\s*=\s*\)true\(.*\)$/\1false\2/
 	}' /etc/pihole/pihole.toml
 
     fi
 else
-    echo "$(date) - Primary Pi-hole is DOWN."
+    echo "[+] - $(date) - El Pi‑hole principal está APAGADO."
      
-    # Check if DHCP is running on the Pi - if not, enable it
+    # Verifique si DHCP se está ejecutando en el Pi; si no es así, habilítelo
     if ! pihole-FTL dhcp-discover | grep -q "Pi-hole DHCP server: active"; then
-        echo "$(date) - Enabling DHCP on the Raspberry Pi (primary is down)."
+    echo "[+] - $(date) - Activando DHCP en el Raspberry Pi (el principal está apagado)."
         sed -i '/^\[dhcp\]/, /^\[/{ 
   	    s/^\(\s*active\s*=\s*\)false\(.*\)$/\1true\2/
 	}' /etc/pihole/pihole.toml
